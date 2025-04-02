@@ -5,3 +5,4 @@
 - expose lib functions that achieve the inner workings of functionality
 - expose markdown / pdf etc copies of a profile via build
   - sbom outputs of outputs
+- package missing tooling (if identified) for nix use-cases
