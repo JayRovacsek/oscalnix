@@ -34,9 +34,10 @@
             devshell.overlays.default
           ];
         };
+
+        self-lib = self.lib pkgs;
       in
       {
-
         checks = {
           git-hooks = git-hooks.lib.${system}.run {
             src = self;
@@ -60,7 +61,9 @@
                 enable = true;
                 settings = {
                   binary = false;
-                  ignored-words = [ ];
+                  ignored-words = [
+                    "catalog"
+                  ];
                   locale = "en-au";
                 };
               };
@@ -91,12 +94,30 @@
             statix
             trufflehog
             typos
+
+            # oscal specific packages - WIP
+            python3Packages.compliance-trestle
           ];
         };
 
-        # Formatter option for `nix fmt` - redundant via checks but nice to have
         formatter = pkgs.nixfmt-rfc-style;
 
+        packages = rec {
+          au-ism = self-lib.source {
+            url = "https://github.com/AustralianCyberSecurityCentre/ism-oscal";
+            rev = "v2025.03.31";
+            hash = "sha256-/DmwCsVDKuwyhIZkgNhOAnHfGmKIPKNd70T8uHmtOB0=";
+          };
+
+          au-ism-catalog = self-lib.catalog {
+            name = "Australian Federal Information Security Manual";
+            source = au-ism;
+            path = "./ISM_catalog.json";
+          };
+        };
       }
-    );
+    )
+    // {
+      lib = pkgs: import ./lib { inherit pkgs; };
+    };
 }
