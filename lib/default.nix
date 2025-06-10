@@ -19,7 +19,7 @@ let
       inherit hash url;
     };
 
-  catalog =
+  sub-source =
     {
       name,
       source,
@@ -58,7 +58,7 @@ let
 in
 {
   inherit
-    catalog
+    sub-source
     git-source
     profile
     url-source
