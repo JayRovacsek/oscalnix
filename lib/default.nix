@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  source =
+  git-source =
     {
       url,
       rev,
@@ -10,20 +10,33 @@ let
       inherit hash rev url;
     };
 
+  url-source =
+    {
+      url,
+      hash ? "",
+    }:
+    pkgs.fetchurl {
+      inherit hash url;
+    };
+
   catalog =
     {
       name,
       source,
       path,
-    }:
-    pkgs.stdenvNoCC.mkDerivation {
-      inherit name;
-      buildPhase = ''
-        ${pkgs.coreutils}/bin/cp ${source}/${path} $out
-      '';
-      phases = [ "buildPhase" ];
-    };
+      ...
+    }@args:
+    pkgs.stdenvNoCC.mkDerivation (
+      {
+        inherit name;
+        buildPhase = ''
+          ${pkgs.coreutils}/bin/cp ${source}/${path} $out
+        '';
+        phases = [ "buildPhase" ];
+      }
+      // args
+    );
 in
 {
-  inherit catalog source;
+  inherit catalog git-source url-source;
 }
