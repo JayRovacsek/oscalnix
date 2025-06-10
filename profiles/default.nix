@@ -27,4 +27,14 @@ in
     url = "https://regscaleblob.blob.core.windows.net/profiles/800-53-rev5-privacy.json";
     hash = "sha256-hp99LPWLa28PlGVdGKHPL/9bLDU2ec2ACJaurcmkxqU=";
   };
+
+  au-ism_e8_ml1-baseline_profile = lib.sub-source {
+    name = "Information security manual Essential Eight Maturity Level One Baseline";
+    source = self.sources.${pkgs.system}.au-ism-v2025-03-31;
+    path = "./ISM_E8_ML1-baseline_profile.json";
+    meta = {
+      version = "2025.03.31";
+      oscal-version = "1.1.2";
+    };
+  };
 }
