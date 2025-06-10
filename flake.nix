@@ -34,8 +34,6 @@
             devshell.overlays.default
           ];
         };
-
-        self-lib = self.lib pkgs;
       in
       {
         checks = {
@@ -63,6 +61,7 @@
                   binary = false;
                   ignored-words = [
                     "catalog"
+                    "catalogs"
                   ];
                   locale = "en-au";
                 };
@@ -101,19 +100,8 @@
 
         formatter = pkgs.nixfmt-rfc-style;
 
-        packages = rec {
-          au-ism = self-lib.source {
-            url = "https://github.com/AustralianCyberSecurityCentre/ism-oscal";
-            rev = "v2025.03.31";
-            hash = "sha256-/DmwCsVDKuwyhIZkgNhOAnHfGmKIPKNd70T8uHmtOB0=";
-          };
-
-          au-ism-catalog = self-lib.catalog {
-            name = "Australian Federal Information Security Manual";
-            source = au-ism;
-            path = "./ISM_catalog.json";
-          };
-        };
+        catalogs = import ./catalogs { inherit pkgs self; };
+        sources = import ./sources { inherit pkgs self; };
       }
     )
     // {
