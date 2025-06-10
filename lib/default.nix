@@ -36,7 +36,31 @@ let
       }
       // args
     );
+
+  profile =
+    {
+      title,
+      imports ? [ ],
+      merge ? { },
+      modify ? { },
+      ...
+    }@args:
+    builtins.toJSON "${title}-profile.json" (
+      pkgs.lib.recursiveUpdate args {
+        profile = {
+          metadata = {
+            inherit title;
+          };
+          inherit imports merge modify;
+        };
+      }
+    );
 in
 {
-  inherit catalog git-source url-source;
+  inherit
+    catalog
+    git-source
+    profile
+    url-source
+    ;
 }
