@@ -30,7 +30,7 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = with self.inputs; [
+          overlays = [
             devshell.overlays.default
           ];
         };
