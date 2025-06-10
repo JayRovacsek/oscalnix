@@ -101,6 +101,7 @@
         formatter = pkgs.nixfmt-rfc-style;
 
         catalogs = import ./catalogs { inherit pkgs self; };
+        profiles = import ./profiles { inherit pkgs self; };
         sources = import ./sources { inherit pkgs self; };
       }
     )
